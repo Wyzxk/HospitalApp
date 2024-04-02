@@ -1,0 +1,38 @@
+{% extends '../nav/nav.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4 mb-4 p-3">
+    <div class="row">
+        {% for paciente in pacientes %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card cardDoc">
+                <div class="image d-flex flex-column justify-content-center align-items-center">
+                    <button class="btn btn-secondary">
+                        <img src="{% static 'imagenes/' %}{{ paciente.foto_p }}" height="100" width="100" />
+                    </button>
+                    <span class="name mt-3">{{ paciente.nombres_p }} {{ paciente.apellidos_p }}</span>
+                    <span class="idd">{{ paciente.correo_p }}</span>
+                    <span class="idd">Edad: {{ paciente.edad_p }}</span>
+                    <div class="d-flex flex-row justify-content-center align-items-center gap-2 mb-4">
+                        <span class="idd1">ID: {{ paciente.identificacion_p }}</span>
+                    </div>
+                        <span>Dirección: {{ paciente.direccion_p }}</span>
+                        <span class="mb-4">Teléfono: {{ paciente.telefono_p }}</span>
+                        <span>Sede: {{ paciente.sede_p.nombre_s }}</span> 
+                        <span>Doctor: {{ paciente.doctor_p.nombres_d }}</span>
+                    <div class="text mt-3">
+                        <span>Estado: {{ paciente.activo_p }}</span>
+                    </div>
+                    <div class="d-flex mt-2">
+                      <a href="/editarpaciente/{{paciente.id}}"> <button class="btn btn-primary m-1 px-3">Editar</button></a>
+                      <a href="/listadopacientesActivar/{{paciente.id}}"> <button class="btn btn-success m-1 px-3">Activar</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="/listadopacientesA"> <button type="button" class="btn btn-success">Ver listado Activos</button></a>
+</div>
+{% endblock %}

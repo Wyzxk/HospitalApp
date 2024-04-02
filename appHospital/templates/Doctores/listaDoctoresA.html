@@ -1,0 +1,38 @@
+{% extends '../nav/nav.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4 mb-4 p-3">
+    <div class="row">
+        {% for doctor in doctores %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card cardDoc">
+                <div class="image d-flex flex-column justify-content-center align-items-center">
+                    <button class="btn btn-secondary">
+                        <img src="{% static 'imagenes/' %}{{ doctor.foto_d }}" height="100" width="100" />
+                    </button>
+                    <span class="name mt-3">{{ doctor.nombres_d }} {{ doctor.apellidos_d }}</span>
+                    <span class="idd">{{ doctor.correo_d }}</span>
+                    <div class="d-flex flex-row justify-content-center align-items-center gap-2 mb-4">
+                        <span class="idd1">ID: {{ doctor.identificacion_d }}</span>
+                    </div>
+                        <span>Dirección: {{ doctor.direccion_d }}</span>
+                        <span>Teléfono: {{ doctor.telefono_d }}</span>
+                    <div class="px-2 rounded mt-4 date">
+                        <div>Sede: {{ doctor.sede_d.nombre_s }}</div>
+                    </div>
+                    <div class="text mt-3">
+                        <span>Estado: {{ doctor.activo_d }}</span>
+                    </div>
+                    <div class="d-flex mt-2">
+                      <a href="/editardoctor/{{doctor.id}}"> <button class="btn btn-primary m-1 px-3">Editar</button></a>
+                      <a href="/listadodoctoresInactivar/{{doctor.id}}"> <button class="btn btn-danger m-1 px-2">Inactivar</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="/listadodoctoresI"> <button type="button" class="btn btn-danger">Ver listado inactivos</button></a>
+</div>
+{% endblock %}

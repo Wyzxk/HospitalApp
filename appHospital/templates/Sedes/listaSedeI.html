@@ -1,0 +1,49 @@
+{% extends '../nav/nav.html' %}
+
+{% block content %}
+
+<section class="intro">
+    <div class="bg-image h-100" style="background-color: #f5f7fa;">
+      <div class="mask d-flex align-items-center h-100">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body p-0">
+                  <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                    <table class="table table-striped mb-0">
+                      <thead style="background-color: #002d72;">
+                        <tr>
+                          <th scope="col">Nombre Sede</th>
+                          <th scope="col">Horario Sede</th>
+                          <th scope="col">Ubicación Sede</th>
+                          <th scope="col">Estado Sede</th>
+                          <th scope="col">Editar Sede</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for sede in sedes %}
+                        <tr>
+                          <td>{{sede.1}}</td>
+                          <td>{{sede.2}}</td>
+                          <td>{{sede.3}}</td>
+                          <td>{{sede.4}}</td>
+                          <td>
+                            <a href="/editarsede/{{sede.0}}"><button type="button" class="btn btn-primary">Editar</button></a>
+                            <a href="/listadosedeActivar/{{sede.0}}"><button type="button" class="btn btn-success">Activar</button></a>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <a href="/listadosedeA"> <button type="button" class="btn btn-success">Ver listado activos</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

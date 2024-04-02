@@ -1,0 +1,131 @@
+{% extends '../nav/nav.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-1 mx-auto">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+            {% if env %}
+            <div class="alert alert-success" role="alert">
+                {{ env }}
+            </div>
+            {% endif %}
+            <div class="card" style="border-radius: 15px;">
+                <h3 class="text-center mb-5">Editador de Pacientes</h3>
+                {% for paciente in pacientes %}
+                <form class="form-card" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Identificación<span class="text-danger"> *</span></label> 
+                        <input type="text" id="identificacion_p" name="identificacion_p" placeholder="Identificación del paciente" onblur="validate(1)" value="{{paciente.identificacion_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Nombres<span class="text-danger"> *</span></label> 
+                        <input type="text" id="nombres_p" name="nombres_p" placeholder="Nombre del paciente" onblur="validate(2)" value="{{paciente.nombres_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Apellidos<span class="text-danger"> *</span></label> 
+                        <input type="text" id="apellidos_p" name="apellidos_p" placeholder="Apellidos del paciente" onblur="validate(3)" value="{{paciente.apellidos_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Edad<span class="text-danger"> *</span></label> 
+                        <input type="text" id="edad_p" name="edad_p" placeholder="Edad del paciente" onblur="validate(3)" value="{{paciente.edad_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Correo<span class="text-danger"> *</span></label> 
+                        <input type="text" id="correo_p" name="correo_p" placeholder="Correo del paciente" onblur="validate(4)" value="{{paciente.correo_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Dirección<span class="text-danger"> *</span></label> 
+                        <input type="text" id="direccion_p" name="direccion_p" placeholder="Dirección del paciente" onblur="validate(5)" value="{{paciente.direccion_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Teléfono<span class="text-danger"> *</span></label> 
+                        <input type="text" id="telefono_p" name="telefono_p" placeholder="Teléfono del paciente" onblur="validate(6)" value="{{paciente.telefono_p}}"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Sede<span class="text-danger"> *</span></label> 
+                        <select id="sede" name="sede_p" class="form-control" onchange="validate(8)">
+                            {% for sede in sedes %}
+                                {% if paciente.sede_p == sede %}
+                                    <option value="{{ sede.id }}" selected>{{ sede.nombre_s }}</option>
+                                {% else %}
+                                    <option value="{{ sede.id }}">{{ sede.nombre_s }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>  
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Doctor<span class="text-danger"> *</span></label> 
+                        <select id="doctor" name="doctor_p" class="form-control" onchange="validate(9)">
+                            {% for doctor in doctores %}
+                                {% if paciente.doctor_p == doctor %}
+                                    <option value="{{ doctor.id }}" selected>{{ doctor.nombres_d }}</option>
+                                {% else %}
+                                    <option value="{{ doctor.id }}">{{ doctor.nombres_d }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>  
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Foto<span class="text-danger"> *</span></label> 
+                        <input type="file" id="foto_p" name="foto_p" accept="image/*" onchange="validate(7)">
+                    </div>                                       
+                    <div class="row justify-content-center mt-3">
+                        <div class="form-group col-sm-6">
+                            <button type="submit" class="btn btn-primary">Guardar datos</button>
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function validate(val) {
+        var field = document.getElementById(getFieldName(val));
+        if(field.value.trim() === "") {
+            field.style.borderColor = "red";
+            return false;
+        } else {
+            field.style.borderColor = "";
+            return true;
+        }
+    }
+
+    function getFieldName(val) {
+        switch(val) {
+            case 1:
+                return "identificacion_p";
+            case 2:
+                return "nombres_p";
+            case 3:
+                return "apellidos_p";
+            case 4:
+                return "correo_p";
+            case 5:
+                return "direccion_p";
+            case 6:
+                return "telefono_p";
+            case 7:
+                return "foto_p";
+            case 8:
+                return "sede_p";
+            case 9:
+                return "doctor_p";
+            default:
+                return "";
+        }
+    }
+
+    function validateForm() {
+        var isValid = true;
+        for(var i = 1; i <= 9; i++) {
+            isValid = isValid && validate(i);
+        }
+        return isValid;
+    }
+</script>
+
+{% endblock %}

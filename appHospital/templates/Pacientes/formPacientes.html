@@ -1,0 +1,120 @@
+{% extends '../nav/nav.html' %}
+
+{% block content %}
+<div class="container-fluid px-1  mx-auto">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+            {% if env %}
+            <div class="alert alert-success" role="alert">
+                {{ env }}
+            </div>
+            {% endif %}
+            <div class="card" style="border-radius: 15px;">
+                <h3 class="text-center mb-5">Formulario de Pacientes</h3>
+                <form class="form-card" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Identificación<span class="text-danger"> *</span></label> 
+                        <input type="text" id="identificacion_d" name="identificacion_p" placeholder="Identificación del paciente" onblur="validate(1)"> 
+                    
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Nombres<span class="text-danger"> *</span></label> 
+                        <input type="text" id="nombre_d" name="nombres_p" placeholder="Nombre del paciente" onblur="validate(2)"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Apellidos<span class="text-danger"> *</span></label> 
+                        <input type="text" id="apellidos_d" name="apellidos_p" placeholder="Apellidos del paciente" onblur="validate(3)"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Edad<span class="text-danger"> *</span></label> 
+                        <input type="text" id="apellidos_d" name="edad_p" placeholder="Edad del paciente" onblur="validate(3)"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Correo<span class="text-danger"> *</span></label> 
+                        <input type="text" id="correo_d" name="correo_p" placeholder="Correo del paciente" onblur="validate(4)"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Dirección<span class="text-danger"> *</span></label> 
+                        <input type="text" id="direccion_d" name="direccion_p" placeholder="Dirección del paciente" onblur="validate(5)"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Teléfono<span class="text-danger"> *</span></label> 
+                        <input type="text" id="telefono_d" name="telefono_p" placeholder="Teléfono del paciente" onblur="validate(6)"> 
+                    </div>
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Sede<span class="text-danger"> *</span></label> 
+                        <select id="sede" name="sede_p" class="form-control" onchange="validate(8)">
+                            <option value="" selected disabled>Seleccionar sede</option>
+                            {% for sede in sedes %}
+                                <option value="{{sede.id}}">{{sede.nombre_s}}</option>
+                            {% endfor %}
+                        </select>
+                    </div> 
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Doctor<span class="text-danger"> *</span></label> 
+                        <select id="sede" name="doctor_p" class="form-control" onchange="validate(8)">
+                            <option value="" selected disabled>Seleccionar doctor</option>
+                            {% for doctor in doctores %}
+                                <option value="{{doctor.id}}">{{doctor.nombres_d}}</option>
+                            {% endfor %}
+                        </select>
+                    </div> 
+                    <div class="form-group flex-column d-flex text-center"> 
+                        <label class="form-control-label px-3">Foto<span class="text-danger"> *</span></label> 
+                        <input type="file" id="foto_d" name="foto_p" accept="image/*" onchange="validate(7)" required>
+                    </div>                                       
+                    <div class="row justify-content-center mt-3">
+                        <div class="form-group col-sm-6">
+                            <button type="submit" class="btn btn-primary">Guardar datos</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function validate(val) {
+        var field = document.getElementById(getFieldName(val));
+        if(field.value.trim() === "") {
+            field.style.borderColor = "red";
+            return false;
+        } else {
+            field.style.borderColor = "";
+            return true;
+        }
+    }
+
+    function getFieldName(val) {
+        switch(val) {
+            case 1:
+                return "identificacion_d";
+            case 2:
+                return "nombre_d";
+            case 3:
+                return "apellidos_d";
+            case 4:
+                return "correo_d";
+            case 5:
+                return "direccion_d";
+            case 6:
+                return "telefono_d";
+            case 7:
+                return "foto_d";
+            case 8:
+                return "sede";
+            default:
+                return "";
+        }
+    }
+
+    function validateForm() {
+        var isValid = true;
+        for(var i = 1; i <= 8; i++) {
+            isValid = isValid && validate(i);
+        }
+        return isValid;
+    }
+</script>
+
+{% endblock %}
